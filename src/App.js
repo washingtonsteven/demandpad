@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 import NoteList from "./NoteList";
 import NoteEditor from "./NoteEditor";
 import {

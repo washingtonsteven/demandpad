@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import noteEditorStyles from "./styles/NoteEditor.module.css";
 
 class NoteEditor extends Component {
   onNoteChange = e => {
@@ -12,18 +13,20 @@ class NoteEditor extends Component {
     const { activeNote } = this.props;
 
     return (
-      <div>
+      <div className={noteEditorStyles["note-editor-container"]}>
         <h2>NoteEditor</h2>
         <input
           type="text"
           name="title"
           value={activeNote.title}
           onChange={this.onNoteChange}
+          className={noteEditorStyles["note-editor-title"]}
         />
         <textarea
           name="body"
           value={activeNote.body}
           onChange={this.onNoteChange}
+          className={noteEditorStyles["note-editor-body"]}
         />
       </div>
     );

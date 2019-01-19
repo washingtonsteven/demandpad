@@ -1,0 +1,26 @@
+.note-editor-container {
+  width: 100vh;
+  height: 100vh;
+  overflow: auto;
+  font-size: 0;
+}
+
+.note-editor-title,
+.note-editor-body {
+  font-size: 1rem;
+  display: block;
+  appearance: none;
+  border: none;
+}
+
+.note-editor-title {
+  width: 100%;
+  height: 10%;
+}
+
+.note-editor-body {
+  width: 100%;
+  height: 90%;
+  appearance: none;
+  display: block;
+}

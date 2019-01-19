@@ -1,0 +1,32 @@
+.note-list-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.2s ease-in-out;
+  background-color: #fff;
+  width: 20vw;
+  height: 100vh;
+  padding: 20px 10px;
+  overflow: auto;
+  z-index: 10;
+}
+
+.note-list-container.open {
+  transform: translate3d(0, 0, 0);
+}
+
+.note-list-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.note {
+  display: block;
+  padding: 25px 10px;
+  border: solid 1px black;
+  margin-bottom: 5px;
+  min-height: 100px;
+}

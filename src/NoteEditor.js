@@ -21,13 +21,16 @@ class NoteEditor extends Component {
           value={activeNote.title}
           onChange={this.onNoteChange}
           className={noteEditorStyles["note-editor-title"]}
+          placeholder="title."
         />
         <textarea
           name="body"
           value={activeNote.body}
           onChange={this.onNoteChange}
           className={noteEditorStyles["note-editor-body"]}
+          placeholder="body."
         />
+        <input type="text" name="date" value={new Date(activeNote.date).toString()} className={noteEditorStyles['note-editor-date']} placeholder="date." readOnly disabled />
       </div>
     );
   }

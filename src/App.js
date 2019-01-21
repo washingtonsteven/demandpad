@@ -59,12 +59,15 @@ class App extends Component {
       }
     );
   };
-  addNote = e => {
+  addNote = () => {
     this.setState(state => {
       const notes = [...state.notes];
-      const activeNote = BLANK_NOTE();
+      let activeNote = notes[notes.length - 1];
+      if (!isEmptyNote(notes[notes.length - 1])) {
+        activeNote = BLANK_NOTE();
+        notes.push(activeNote);
+      }
       activeNote.date = new Date().toJSON();
-      notes.push(activeNote);
       return {
         ...state,
         notes,
@@ -72,7 +75,7 @@ class App extends Component {
       };
     });
   };
-  clearNotes = e => {
+  clearNotes = () => {
     clearNotes(newNotes => {
       this.setState(state => ({
         ...state,
@@ -92,15 +95,14 @@ class App extends Component {
               onNoteChange={this.onNoteChange}
             />
           )}
-          <NoteList notes={notes} onNoteClick={this.onNoteClick} />
-          <button onClick={this.addNote}>Add Note</button>
-          <button onClick={this.clearNotes}>Clear All Notes</button>
+          <NoteList
+            notes={notes}
+            activeNote={activeNote}
+            onNoteClick={this.onNoteClick}
+            addNote={this.addNote}
+            clearNotes={this.clearNotes}
+          />
         </main>
-        <div>
-          <code>
-            <pre>{JSON.stringify(notes, null, 1)}</pre>
-          </code>
-        </div>
       </div>
     );
   }

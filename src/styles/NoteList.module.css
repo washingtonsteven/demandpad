@@ -5,18 +5,46 @@
   transform: translate3d(100%, 0, 0);
   transition: transform 0.2s ease-in-out;
   background-color: #fff;
-  width: 20vw;
+  width: 25vw;
   height: 100vh;
-  padding: 20px 10px;
-  overflow: auto;
+  padding: 0px 10px;
   z-index: 10;
+  display: grid;
+  grid-template-rows: auto 7fr 1fr;
 }
 
 .note-list-container.open {
   transform: translate3d(0, 0, 0);
 }
 
-.note-list-button {
+.note-list-title {
+  margin: 0;
+  justify-self: center;
+}
+
+.note-list-new-note-title {
+  font-style: italic;
+}
+
+.note-list-scroll-container {
+  overflow: scroll;
+  align-items: top;
+}
+
+.note-list-button-container {
+  background-color: tomato;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  padding: 0 10px;
+}
+
+.note-list-button-container button {
+  height: 75%;
+}
+
+.note-list-open-button {
   position: absolute;
   top: 0;
   left: 0;
@@ -29,4 +57,19 @@
   border: solid 1px black;
   margin-bottom: 5px;
   min-height: 100px;
+}
+
+.active-note {
+  border-color: red;
+}
+
+.note h3,
+.note div {
+  margin: 0 0 10px;
+}
+
+.note-list-date {
+  color: #999;
+  font-size: 0.75rem;
+  font-style: italic;
 }

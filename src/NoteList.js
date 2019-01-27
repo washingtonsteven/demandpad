@@ -75,10 +75,16 @@ class NoteList extends Component {
           <button onClick={this.clearNotes}>Clear All Notes</button>
         </div>
         <button
-          className={noteListStyles["note-list-open-button"]}
+          className={`${noteListStyles["note-list-open-button"]} ${
+            isOpen ? noteListStyles["open"] : ""
+          }`}
           onClick={this.toggleOpen}
+          title={isOpen ? "Close List" : "Open List"}
+          aria-label="List toggle"
         >
-          {isOpen ? "Close List" : "Open List"}
+          <span className={noteListStyles["burger"]} />
+          <span className={noteListStyles["burger"]} />
+          <span className={noteListStyles["burger"]} />
         </button>
       </div>
     );

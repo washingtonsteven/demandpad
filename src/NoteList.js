@@ -21,7 +21,7 @@ class NoteList extends Component {
   clearNotes = () => {
     this.props.clearNotes && this.props.clearNotes();
   };
-  makeExcerpt(str, len = 15) {
+  makeExcerpt(str, len = 40) {
     let excerpt = str.substring(0, len).trim();
     if (str.length > len) excerpt += "&hellip;";
     return excerpt;

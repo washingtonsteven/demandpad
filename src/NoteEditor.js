@@ -14,7 +14,6 @@ class NoteEditor extends Component {
 
     return (
       <div className={noteEditorStyles["note-editor-container"]}>
-        <h2>NoteEditor</h2>
         <input
           type="text"
           name="title"
@@ -30,7 +29,15 @@ class NoteEditor extends Component {
           className={noteEditorStyles["note-editor-body"]}
           placeholder="body."
         />
-        <input type="text" name="date" value={new Date(activeNote.date).toString()} className={noteEditorStyles['note-editor-date']} placeholder="date." readOnly disabled />
+        <input
+          type="text"
+          name="date"
+          value={new Date(activeNote.date).toString()}
+          className={noteEditorStyles["note-editor-date"]}
+          placeholder="date."
+          readOnly
+          disabled
+        />
       </div>
     );
   }

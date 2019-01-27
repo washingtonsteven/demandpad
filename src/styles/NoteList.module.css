@@ -11,6 +11,7 @@
   z-index: 10;
   display: grid;
   grid-template-rows: auto 7fr 1fr;
+  box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .note-list-container.open {
@@ -20,6 +21,7 @@
 .note-list-title {
   margin: 0;
   justify-self: center;
+  font-family: "Raleway", sans-serif;
 }
 
 .note-list-new-note-title {
@@ -27,12 +29,12 @@
 }
 
 .note-list-scroll-container {
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   align-items: top;
 }
 
 .note-list-button-container {
-  background-color: tomato;
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 1fr;
@@ -46,9 +48,57 @@
 
 .note-list-open-button {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10px;
+  left: -20px;
   transform: translate3d(-100%, 0, 0);
+  width: 50px;
+  height: 50px;
+  appearance: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.note-list-open-button:focus {
+  outline: none;
+}
+
+.note-list-open-button .burger {
+  display: block;
+  width: 50%;
+  height: 5px;
+  border-radius: 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #444;
+  transform-origin: center;
+  opacity: 1;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.note-list-open-button .burger:first-child {
+  transform: translate(-50%, -200%);
+}
+
+.note-list-open-button .burger:last-child {
+  transform: translate(-50%, 100%);
+}
+
+.note-list-open-button.open .burger {
+  opacity: 0;
+}
+
+.note-list-open-button.open .burger:first-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+  opacity: 1;
+}
+
+.note-list-open-button.open .burger:last-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+  opacity: 1;
 }
 
 .note {
@@ -57,6 +107,12 @@
   border: solid 1px black;
   margin-bottom: 5px;
   min-height: 100px;
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+}
+
+.note:hover {
+  background-color: rgba(135, 215, 255, 0.05);
 }
 
 .active-note {
@@ -66,6 +122,10 @@
 .note h3,
 .note div {
   margin: 0 0 10px;
+}
+
+.note h3 {
+  font-family: "Raleway", sans-serif;
 }
 
 .note-list-date {

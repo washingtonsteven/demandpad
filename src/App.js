@@ -19,21 +19,22 @@ class App extends Component {
       return aDate.getTime() - bDate.getTime();
     });
 
-    const activeNote = (() => {
-      const latestNote = notes.length > 0 ? notes[notes.length - 1] : null;
-      if (isEmptyNote(latestNote)) return latestNote;
-      notes.push({
-        ...BLANK_NOTE(),
-        date: new Date().toJSON()
-      });
-      return notes[notes.length - 1];
-    })();
+    const activeNote = this.getLatestActiveNote(notes);
 
     this.state = {
       notes,
       activeNote
     };
   }
+  getLatestActiveNote = notes => {
+    const latestNote = notes.length > 0 ? notes[notes.length - 1] : null;
+    if (isEmptyNote(latestNote)) return latestNote;
+    notes.push({
+      ...BLANK_NOTE(),
+      date: new Date().toJSON()
+    });
+    return notes[notes.length - 1];
+  };
   onNoteClick = targetNoteId => {
     this.setState(state => ({
       ...state,
@@ -80,7 +81,7 @@ class App extends Component {
       this.setState(state => ({
         ...state,
         notes: newNotes.notes,
-        activeNote: null
+        activeNote: this.getLatestActiveNote(newNotes.notes)
       }));
     });
   };

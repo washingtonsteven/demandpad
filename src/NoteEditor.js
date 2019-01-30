@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import Editor from "react-simple-code-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-markup";
+import "prismjs/components/prism-markdown";
 import noteEditorStyles from "./styles/NoteEditor.module.css";
 
 class NoteEditor extends Component {
@@ -9,11 +13,20 @@ class NoteEditor extends Component {
         [e.target.name]: e.target.value
       });
   };
+  onNoteBodyChange = value => {
+    this.onNoteChange({ target: { name: "body", value } });
+  };
+  onClick = () => {
+    this.props.onClick && this.props.onClick();
+  };
   render() {
     const { activeNote } = this.props;
 
     return (
-      <div className={noteEditorStyles["note-editor-container"]}>
+      <div
+        className={noteEditorStyles["note-editor-container"]}
+        onClick={this.onClick}
+      >
         <input
           type="text"
           name="title"
@@ -22,12 +35,16 @@ class NoteEditor extends Component {
           className={noteEditorStyles["note-editor-title"]}
           placeholder="title."
         />
-        <textarea
+        <Editor
           name="body"
           value={activeNote.body}
-          onChange={this.onNoteChange}
-          className={noteEditorStyles["note-editor-body"]}
+          onValueChange={this.onNoteBodyChange}
+          highlight={value => highlight(value, languages.markdown)}
+          className={`${
+            noteEditorStyles["note-editor-body"]
+          } language-markdown`}
           placeholder="body."
+          padding={25}
         />
         <input
           type="text"

@@ -2,18 +2,12 @@ import React, { Component } from "react";
 import noteListStyles from "./styles/NoteList.module.css";
 
 class NoteList extends Component {
-  state = {
-    isOpen: false
-  };
   onNoteClick = e => {
     this.props.onNoteClick &&
       this.props.onNoteClick(e.currentTarget.dataset.noteId);
   };
   toggleOpen = () => {
-    this.setState(state => ({
-      ...state,
-      isOpen: !state.isOpen
-    }));
+    this.props.toggleList && this.props.toggleList();
   };
   addNote = () => {
     this.props.addNote && this.props.addNote();
@@ -27,8 +21,7 @@ class NoteList extends Component {
     return excerpt;
   }
   render() {
-    const { isOpen } = this.state;
-    const { activeNote } = this.props;
+    const { activeNote, open: isOpen } = this.props;
     const noteList = [...this.props.notes].reverse();
     const containerClassName = (() => {
       let className = noteListStyles["note-list-container"];

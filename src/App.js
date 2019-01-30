@@ -23,7 +23,8 @@ class App extends Component {
 
     this.state = {
       notes,
-      activeNote
+      activeNote,
+      listOpen: false
     };
   }
   getLatestActiveNote = notes => {
@@ -85,8 +86,20 @@ class App extends Component {
       }));
     });
   };
+  onEditorClick = () => {
+    this.setState(state => ({
+      ...state,
+      listOpen: false
+    }));
+  };
+  toggleList = () => {
+    this.setState(state => ({
+      ...state,
+      listOpen: !state.listOpen
+    }));
+  };
   render() {
-    const { activeNote, notes } = this.state;
+    const { activeNote, notes, listOpen } = this.state;
     return (
       <div className="App">
         <main>
@@ -94,6 +107,7 @@ class App extends Component {
             <NoteEditor
               activeNote={activeNote}
               onNoteChange={this.onNoteChange}
+              onClick={this.onEditorClick}
             />
           )}
           <NoteList
@@ -102,6 +116,8 @@ class App extends Component {
             onNoteClick={this.onNoteClick}
             addNote={this.addNote}
             clearNotes={this.clearNotes}
+            open={listOpen}
+            toggleList={this.toggleList}
           />
         </main>
       </div>

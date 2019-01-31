@@ -32,10 +32,12 @@
 .note-editor-body {
   width: 100%;
   padding-top: 25px;
+  font-family: "Inconsolata", monospace;
 }
 
-.note-editor-body:focus {
-  background-color: rgba(135, 215, 255, 0.05);
+.note-editor-body:focus,
+.note-editor-body textarea:focus {
+  background-color: rgba(135, 215, 255, 0.05) !important;
   outline: none;
 }
 

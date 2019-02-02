@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "netlify-identity-widget": "^1.5.2",
     "prismjs": "^1.15.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

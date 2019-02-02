@@ -8,6 +8,67 @@ import {
   clearNotes,
   isEmptyNote
 } from "./data/notes.js";
+import netlifyIdentity from "netlify-identity-widget";
+
+const netlifyAuth = {
+  isAuthenticated: false,
+  user: null,
+  authenticate(callback) {
+    this.isAuthenticated = true;
+    netlifyIdentity.open();
+    netlifyIdentity.on("login", user => {
+      this.user = user;
+      callback(user);
+    });
+  },
+  signout(callback) {
+    this.isAuthenticated = false;
+    netlifyIdentity.logout();
+    netlifyIdentity.on("logout", () => {
+      this.user = null;
+      callback();
+    });
+  }
+};
+
+const SignoutForm = () => {
+  return (
+    <p>
+      Welcome!{" "}
+      <button
+        onClick={() => {
+          netlifyAuth.signout(() => {
+            console.log("signout completed");
+          });
+        }}
+      >
+        Sign out
+      </button>
+    </p>
+  );
+};
+
+const LoginForm = () => {
+  return (
+    <div>
+      <button
+        onClick={() => {
+          netlifyAuth.authenticate(user => {
+            console.log("logged in", user);
+          });
+        }}
+      >
+        Log in
+      </button>
+    </div>
+  );
+};
+
+const ProtectedApp = () => {
+  return netlifyAuth.isAuthenticated ? <App /> : <LoginForm />;
+};
+
+export default ProtectedApp;
 
 class App extends Component {
   constructor(props) {
@@ -120,9 +181,8 @@ class App extends Component {
             toggleList={this.toggleList}
           />
         </main>
+        <SignoutForm />
       </div>
     );
   }
 }
-
-export default App;

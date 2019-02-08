@@ -31,14 +31,14 @@ const netlifyAuth = {
   }
 };
 
-const SignoutForm = () => {
+const SignoutForm = props => {
   return (
     <p>
       Welcome!{" "}
       <button
         onClick={() => {
           netlifyAuth.signout(() => {
-            console.log("signout completed");
+            props.onSignout && props.onSignout(netlifyAuth);
           });
         }}
       >
@@ -48,13 +48,13 @@ const SignoutForm = () => {
   );
 };
 
-const LoginForm = () => {
+const LoginForm = props => {
   return (
     <div>
       <button
         onClick={() => {
           netlifyAuth.authenticate(user => {
-            console.log("logged in", user);
+            props.onAuthenticated && props.onAuthenticated(netlifyAuth);
           });
         }}
       >
@@ -64,9 +64,50 @@ const LoginForm = () => {
   );
 };
 
-const ProtectedApp = () => {
-  return netlifyAuth.isAuthenticated ? <App /> : <LoginForm />;
-};
+class ProtectedApp extends Component {
+  state = {
+    isAuthenticated: netlifyAuth.isAuthenticated,
+    user: netlifyAuth.user
+  };
+  componentDidMount() {
+    netlifyIdentity.on("init", this.onNetlifyIdentityInit);
+    netlifyIdentity.init();
+  }
+  onNetlifyIdentityInit = user => {
+    if (user) {
+      this.setState(
+        state => ({
+          ...state,
+          isAuthenticated: true,
+          user
+        }),
+        () => {
+          netlifyAuth.isAuthenticated = this.state.isAuthenticated;
+          netlifyAuth.user = this.state.user;
+        }
+      );
+    }
+  };
+  // actually tracks auth changes
+  onAuthChange = n => {
+    this.setState(state => ({
+      ...state,
+      isAuthenticated: n.isAuthenticated,
+      user: n.user
+    }));
+  };
+  render() {
+    return this.state.isAuthenticated ? (
+      <>
+        {" "}
+        <App user={this.state.user} />
+        <SignoutForm onSignout={this.onAuthChange} />{" "}
+      </>
+    ) : (
+      <LoginForm onAuthenticated={this.onAuthChange} />
+    );
+  }
+}
 
 export default ProtectedApp;
 
@@ -181,7 +222,6 @@ class App extends Component {
             toggleList={this.toggleList}
           />
         </main>
-        <SignoutForm />
       </div>
     );
   }

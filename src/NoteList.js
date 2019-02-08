@@ -51,9 +51,7 @@ class NoteList extends Component {
                     __html: this.makeExcerpt(n.title)
                   }}
                 />
-              ) : (
-                <h3 className={noteListStyles["note-list-new-note-title"]} />
-              )}
+              ) : null}
               <div
                 dangerouslySetInnerHTML={{ __html: this.makeExcerpt(n.body) }}
               />

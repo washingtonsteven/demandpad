@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Helmet from "react-helmet";
 import NoteList from "./NoteList";
 import NoteEditor from "./NoteEditor";
 import appStyles from "./styles/App.module.css";
@@ -129,6 +130,9 @@ class App extends Component {
     const { activeNote, notes, listOpen, saveMessage } = this.state;
     return (
       <div className="App">
+        <Helmet>
+          <title>{activeNote.title && `${activeNote.title} | `}DemandPad</title>
+        </Helmet>
         <main>
           {activeNote && (
             <NoteEditor

@@ -37,12 +37,12 @@
 
 .note-editor-body:focus,
 .note-editor-body textarea:focus {
-  background-color: rgba(135, 215, 255, 0.05) !important;
+  background-color: rgba(135, 215, 255, 0.1) !important;
   outline: none;
 }
 
 .note-editor-title:focus {
-  background-color: rgba(135, 215, 255, 0.05);
+  background-color: rgba(135, 215, 255, 0.1);
   outline: none;
 }
 

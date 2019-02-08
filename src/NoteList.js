@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import noteListStyles from "./styles/NoteList.module.css";
 
 class NoteList extends Component {
@@ -49,11 +51,7 @@ class NoteList extends Component {
                     __html: this.makeExcerpt(n.title)
                   }}
                 />
-              ) : (
-                <h3 className={noteListStyles["note-list-new-note-title"]}>
-                  new note
-                </h3>
-              )}
+              ) : null}
               <div
                 dangerouslySetInnerHTML={{ __html: this.makeExcerpt(n.body) }}
               />
@@ -64,8 +62,18 @@ class NoteList extends Component {
           ))}
         </div>
         <div className={noteListStyles["note-list-button-container"]}>
-          <button onClick={this.addNote}>Add Note</button>
-          <button onClick={this.clearNotes}>Clear All Notes</button>
+          <button
+            onClick={this.addNote}
+            className={noteListStyles["note-list-add-button"]}
+          >
+            <FontAwesomeIcon icon={faPlusCircle} /> Add Note
+          </button>
+          <button
+            onClick={this.clearNotes}
+            className={noteListStyles["note-list-clear-button"]}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} /> Clear All Notes
+          </button>
         </div>
         <button
           className={`${noteListStyles["note-list-open-button"]} ${

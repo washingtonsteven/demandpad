@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NoteList from "./NoteList";
 import NoteEditor from "./NoteEditor";
+import appStyles from "./styles/App.module.css";
 import {
   localStorageNotes as loadedNotes,
   saveNotes,
@@ -8,6 +9,8 @@ import {
   clearNotes,
   isEmptyNote
 } from "./data/notes.js";
+
+console.log(appStyles);
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +29,30 @@ class App extends Component {
       activeNote,
       listOpen: false
     };
+  }
+  componentDidMount() {
+    window.addEventListener("keydown", event => {
+      if (event.ctrlKey || event.metaKey) {
+        if (event.which === 83 || event.key === "s") {
+          this.setState(
+            state => ({
+              ...state,
+              saveMessage: true
+            }),
+            () => {
+              setTimeout(() => {
+                this.setState(state => ({
+                  ...state,
+                  saveMessage: false
+                }));
+              }, 2500);
+            }
+          );
+          event.preventDefault();
+          return false;
+        }
+      }
+    });
   }
   getLatestActiveNote = notes => {
     const latestNote = notes.length > 0 ? notes[notes.length - 1] : null;
@@ -99,7 +126,7 @@ class App extends Component {
     }));
   };
   render() {
-    const { activeNote, notes, listOpen } = this.state;
+    const { activeNote, notes, listOpen, saveMessage } = this.state;
     return (
       <div className="App">
         <main>
@@ -119,6 +146,12 @@ class App extends Component {
             open={listOpen}
             toggleList={this.toggleList}
           />
+          <div
+            className={`${appStyles["saveMessage"]} ${saveMessage &&
+              appStyles["active"]}`}
+          >
+            Saved!
+          </div>
         </main>
       </div>
     );

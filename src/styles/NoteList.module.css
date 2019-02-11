@@ -145,6 +145,7 @@
   min-height: 100px;
   font-family: "Roboto", sans-serif;
   cursor: pointer;
+  position: relative;
 }
 
 .note:hover {
@@ -170,4 +171,10 @@
   color: #999;
   font-size: 0.75rem;
   font-style: italic;
+}
+
+.note-list-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

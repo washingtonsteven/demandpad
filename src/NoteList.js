@@ -2,6 +2,48 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import noteListStyles from "./styles/NoteList.module.css";
+import { isEmptyNote } from "./data/notes";
+
+class DeleteButton extends Component {
+  state = {
+    deleteConfirming: false
+  };
+  onDeleteButtonClick = () => {
+    this.setState(state => ({
+      ...state,
+      deleteConfirming: true
+    }));
+  };
+  onDeleteButtonConfirm = () => {
+    this.onDeleteButtonCancel(() => {
+      this.props.onDelete && this.props.onDelete(this.props["data-note-id"]);
+    });
+  };
+  onDeleteButtonCancel = cb => {
+    this.setState(
+      state => ({
+        ...state,
+        deleteConfirming: false
+      }),
+      cb
+    );
+  };
+  render() {
+    return (
+      <div>
+        {this.state.deleteConfirming ? (
+          <span>
+            Are you sure you want to delete?{" "}
+            <button onClick={this.onDeleteButtonConfirm}>yes</button>
+            <button onClick={this.onDeleteButtonCancel}>no</button>
+          </span>
+        ) : (
+          <span onClick={this.onDeleteButtonClick}>delete</span>
+        )}
+      </div>
+    );
+  }
+}
 
 class NoteList extends Component {
   onNoteClick = e => {
@@ -22,6 +64,9 @@ class NoteList extends Component {
     if (str.length > len) excerpt += "&hellip;";
     return excerpt;
   }
+  onNoteDeleted = noteId => {
+    this.props.deleteNote && this.props.deleteNote(noteId);
+  };
   render() {
     const { activeNote, open: isOpen } = this.props;
     const noteList = [...this.props.notes].reverse();
@@ -58,6 +103,14 @@ class NoteList extends Component {
               <div className={noteListStyles["note-list-date"]}>
                 {new Date(n.date).toString()}
               </div>
+              {n.id === activeNote.id && !isEmptyNote(n) ? (
+                <div className={noteListStyles["note-list-delete"]}>
+                  <DeleteButton
+                    onDelete={this.onNoteDeleted}
+                    data-note-id={n.id}
+                  />
+                </div>
+              ) : null}
             </div>
           ))}
         </div>

@@ -8,10 +8,9 @@ import {
   saveNotes,
   BLANK_NOTE,
   clearNotes,
+  deleteNote,
   isEmptyNote
 } from "./data/notes.js";
-
-console.log(appStyles);
 
 class App extends Component {
   constructor(props) {
@@ -59,8 +58,7 @@ class App extends Component {
     const latestNote = notes.length > 0 ? notes[notes.length - 1] : null;
     if (isEmptyNote(latestNote)) return latestNote;
     notes.push({
-      ...BLANK_NOTE(),
-      date: new Date().toJSON()
+      ...BLANK_NOTE()
     });
     return notes[notes.length - 1];
   };
@@ -94,7 +92,7 @@ class App extends Component {
       const notes = [...state.notes];
       let activeNote = notes[notes.length - 1];
       if (!isEmptyNote(notes[notes.length - 1])) {
-        activeNote = BLANK_NOTE();
+        activeNote = { ...BLANK_NOTE() };
         notes.push(activeNote);
       }
       activeNote.date = new Date().toJSON();
@@ -105,13 +103,21 @@ class App extends Component {
       };
     });
   };
+  deleteNote = noteId => {
+    deleteNote(noteId, this.resetNotes);
+  };
   clearNotes = () => {
-    clearNotes(newNotes => {
-      this.setState(state => ({
+    clearNotes(this.resetNotes);
+  };
+  resetNotes = newNotes => {
+    this.setState(state => {
+      const notes = [...newNotes.notes];
+
+      return {
         ...state,
-        notes: newNotes.notes,
-        activeNote: this.getLatestActiveNote(newNotes.notes)
-      }));
+        notes,
+        activeNote: this.getLatestActiveNote(notes)
+      };
     });
   };
   onEditorClick = () => {
@@ -149,6 +155,7 @@ class App extends Component {
             clearNotes={this.clearNotes}
             open={listOpen}
             toggleList={this.toggleList}
+            deleteNote={this.deleteNote}
           />
           <div
             className={`${appStyles["saveMessage"]} ${saveMessage &&

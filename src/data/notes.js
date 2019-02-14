@@ -49,6 +49,13 @@ export const clearNotes = cb => {
   typeof cb === "function" && cb(loadNotes());
 };
 
+export const deleteNote = (noteId, cb) => {
+  const loadedNotes = loadNotes();
+  const newNotes = loadedNotes.notes.filter(n => n.id !== noteId);
+  saveNotes(newNotes);
+  typeof cb === "function" && cb(loadNotes());
+};
+
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -75,7 +82,8 @@ export const BLANK_NOTE = () => {
   return {
     id: guid(),
     title: "",
-    body: ""
+    body: "",
+    date: new Date().toJSON()
   };
 };
 

@@ -1,7 +1,65 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlusCircle,
+  faTrashAlt,
+  faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
 import noteListStyles from "./styles/NoteList.module.css";
+import { isEmptyNote } from "./data/notes";
+
+class DeleteButton extends Component {
+  state = {
+    deletePercent: 0
+  };
+  onDeleteButtonConfirm = () => {
+    this.props.onDelete && this.props.onDelete(this.props["data-note-id"]);
+  };
+  startDelete = () => {
+    if (this.deleteInterval) return;
+    this.deleteInterval = setInterval(() => {
+      if (this.state.deletePercent === 100) {
+        this.endDelete(true);
+        return;
+      }
+      this.setState(state => ({
+        ...state,
+        deletePercent: state.deletePercent + 1
+      }));
+    }, 750 / 100);
+  };
+  endDelete = confirmed => {
+    if (!this.deleteInterval) return;
+    clearInterval(this.deleteInterval);
+    this.deleteInterval = null;
+    this.setState(state => ({
+      ...state,
+      deletePercent: 0
+    }));
+    if (confirmed) {
+      this.onDeleteButtonConfirm();
+    }
+  };
+  handleMouseDown = () => this.startDelete();
+  handleMouseUp = () => this.endDelete();
+  render() {
+    return (
+      <div>
+        <div
+          className={noteListStyles["bar"]}
+          style={{ width: `${this.state.deletePercent}%` }}
+        />
+        <span
+          onMouseDown={this.handleMouseDown}
+          onMouseUp={this.handleMouseUp}
+          onMouseOut={this.handleMouseUp}
+        >
+          <FontAwesomeIcon icon={faTimesCircle} />
+        </span>
+      </div>
+    );
+  }
+}
 
 class NoteList extends Component {
   onNoteClick = e => {
@@ -22,6 +80,9 @@ class NoteList extends Component {
     if (str.length > len) excerpt += "&hellip;";
     return excerpt;
   }
+  onNoteDeleted = noteId => {
+    this.props.deleteNote && this.props.deleteNote(noteId);
+  };
   render() {
     const { activeNote, open: isOpen } = this.props;
     const noteList = [...this.props.notes].reverse();
@@ -45,6 +106,14 @@ class NoteList extends Component {
               onClick={this.onNoteClick}
               data-note-id={n.id}
             >
+              {n.id === activeNote.id && !isEmptyNote(n) ? (
+                <div className={noteListStyles["note-list-delete"]}>
+                  <DeleteButton
+                    onDelete={this.onNoteDeleted}
+                    data-note-id={n.id}
+                  />
+                </div>
+              ) : null}
               {n.title ? (
                 <h3
                   dangerouslySetInnerHTML={{

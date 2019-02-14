@@ -1,45 +1,61 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlusCircle,
+  faTrashAlt,
+  faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
 import noteListStyles from "./styles/NoteList.module.css";
 import { isEmptyNote } from "./data/notes";
 
 class DeleteButton extends Component {
   state = {
-    deleteConfirming: false
-  };
-  onDeleteButtonClick = () => {
-    this.setState(state => ({
-      ...state,
-      deleteConfirming: true
-    }));
+    deletePercent: 0
   };
   onDeleteButtonConfirm = () => {
-    this.onDeleteButtonCancel(() => {
-      this.props.onDelete && this.props.onDelete(this.props["data-note-id"]);
-    });
+    this.props.onDelete && this.props.onDelete(this.props["data-note-id"]);
   };
-  onDeleteButtonCancel = cb => {
-    this.setState(
-      state => ({
+  startDelete = () => {
+    if (this.deleteInterval) return;
+    this.deleteInterval = setInterval(() => {
+      if (this.state.deletePercent === 100) {
+        this.endDelete(true);
+        return;
+      }
+      this.setState(state => ({
         ...state,
-        deleteConfirming: false
-      }),
-      cb
-    );
+        deletePercent: state.deletePercent + 1
+      }));
+    }, 750 / 100);
   };
+  endDelete = confirmed => {
+    if (!this.deleteInterval) return;
+    clearInterval(this.deleteInterval);
+    this.deleteInterval = null;
+    this.setState(state => ({
+      ...state,
+      deletePercent: 0
+    }));
+    if (confirmed) {
+      this.onDeleteButtonConfirm();
+    }
+  };
+  handleMouseDown = () => this.startDelete();
+  handleMouseUp = () => this.endDelete();
   render() {
     return (
       <div>
-        {this.state.deleteConfirming ? (
-          <span>
-            Are you sure you want to delete?{" "}
-            <button onClick={this.onDeleteButtonConfirm}>yes</button>
-            <button onClick={this.onDeleteButtonCancel}>no</button>
-          </span>
-        ) : (
-          <span onClick={this.onDeleteButtonClick}>delete</span>
-        )}
+        <div
+          className={noteListStyles["bar"]}
+          style={{ width: `${this.state.deletePercent}%` }}
+        />
+        <span
+          onMouseDown={this.handleMouseDown}
+          onMouseUp={this.handleMouseUp}
+          onMouseOut={this.handleMouseUp}
+        >
+          <FontAwesomeIcon icon={faTimesCircle} />
+        </span>
       </div>
     );
   }
@@ -90,6 +106,14 @@ class NoteList extends Component {
               onClick={this.onNoteClick}
               data-note-id={n.id}
             >
+              {n.id === activeNote.id && !isEmptyNote(n) ? (
+                <div className={noteListStyles["note-list-delete"]}>
+                  <DeleteButton
+                    onDelete={this.onNoteDeleted}
+                    data-note-id={n.id}
+                  />
+                </div>
+              ) : null}
               {n.title ? (
                 <h3
                   dangerouslySetInnerHTML={{
@@ -103,14 +127,6 @@ class NoteList extends Component {
               <div className={noteListStyles["note-list-date"]}>
                 {new Date(n.date).toString()}
               </div>
-              {n.id === activeNote.id && !isEmptyNote(n) ? (
-                <div className={noteListStyles["note-list-delete"]}>
-                  <DeleteButton
-                    onDelete={this.onNoteDeleted}
-                    data-note-id={n.id}
-                  />
-                </div>
-              ) : null}
             </div>
           ))}
         </div>

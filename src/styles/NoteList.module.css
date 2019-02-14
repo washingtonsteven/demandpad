@@ -175,6 +175,21 @@
 
 .note-list-delete {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 20px;
+  text-align: right;
+  width: 100%;
+}
+
+.note-list-delete span {
+  cursor: not-allowed;
+}
+
+.note-list-delete .bar {
+  position: absolute;
+  top: -5px;
+  left: 20px;
+  height: 100%;
+  width: 0;
+  background-color: rgba(255, 0, 0, 0.4);
 }

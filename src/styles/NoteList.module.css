@@ -124,7 +124,7 @@
 
 .note-list-open-button {
   position: absolute;
-  top: 10px;
+  top: 20px;
   left: -20px;
   transform: translate3d(-100%, 0, 0);
   width: 50px;

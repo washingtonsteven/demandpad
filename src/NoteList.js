@@ -135,13 +135,13 @@ class NoteList extends Component {
             onClick={this.addNote}
             className={noteListStyles["note-list-add-button"]}
           >
-            <FontAwesomeIcon icon={faPlusCircle} /> Add Note
+            <FontAwesomeIcon icon={faPlusCircle} />
           </button>
           <button
             onClick={this.clearNotes}
             className={noteListStyles["note-list-clear-button"]}
           >
-            <FontAwesomeIcon icon={faTrashAlt} /> Clear All Notes
+            <FontAwesomeIcon icon={faTrashAlt} />
           </button>
         </div>
         <button

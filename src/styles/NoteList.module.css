@@ -11,9 +11,10 @@
   padding: 0;
   z-index: 10;
   display: grid;
-  grid-template-rows: auto 7fr 1fr;
+  grid-template-rows: 1fr 8fr;
   box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
-  background-color: #fff;
+  background-color: #444;
+  color: #fafafa;
 }
 
 .note-list-container:before {
@@ -24,7 +25,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(135, 215, 255, 0.1);
+  background-color: #444;
 }
 
 .note-list-container > * {
@@ -37,8 +38,10 @@
 }
 
 .note-list-title {
+  padding: 10px;
   margin: 10px 0;
-  justify-self: center;
+  justify-self: right;
+  align-self: center;
   font-family: "Raleway", sans-serif;
 }
 
@@ -58,6 +61,12 @@
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   padding: 0 10px;
+  position: absolute;
+  top: calc(100vh * (1 / 9));
+  left: 0;
+  z-index: 5;
+  height: 50px;
+  transform: translateY(-80%);
 }
 
 .note-list-button-container button {
@@ -68,11 +77,41 @@
   cursor: pointer;
   outline: none;
   border-radius: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.2);
+  background-color: #458693;
+  color: #fafafa !important;
+  font-size: 1rem;
+  position: relative;
+}
+
+.note-list-button-container button:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #444;
+  transition: opacity 0.2s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+.note-list-button-container button > svg {
+  position: relative;
+  z-index: 2;
+}
+
+.note-list-button-container button:hover:before {
+  opacity: 0.5;
 }
 
 .note-list-button-container button:focus {
   outline: none;
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.2);
 }
 
 .note-list-button-container button.note-list-add-button {
@@ -95,6 +134,7 @@
   border-radius: 50%;
   cursor: pointer;
   box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: #444;
 }
 
 .note-list-open-button:focus {
@@ -110,7 +150,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #444;
+  background-color: #fafafa;
   transform-origin: center;
   opacity: 1;
   transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
@@ -154,8 +194,9 @@
 
 .active-note,
 .active-note:hover {
-  background-color: rgba(135, 215, 255, 0.3);
+  /*background-color: rgba(135, 215, 255, 0.3);*/
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  border-left: solid 5px #458693;
 }
 
 .note h3,
@@ -182,7 +223,7 @@
 }
 
 .note-list-delete span {
-  cursor: not-allowed;
+  cursor: pointer;
 }
 
 .note-list-delete .bar {

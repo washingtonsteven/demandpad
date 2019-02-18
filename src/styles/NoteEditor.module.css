@@ -20,6 +20,8 @@
   padding: 0 25px;
   font-family: "Roboto", sans-serif;
   height: 100%;
+  background-color: #555;
+  color: #fafafa;
 }
 
 .note-editor-title {
@@ -37,13 +39,14 @@
 
 .note-editor-body:focus,
 .note-editor-body textarea:focus {
-  background-color: rgba(135, 215, 255, 0.1) !important;
+  background-color: #444 !important;
   outline: none;
 }
 
 .note-editor-title:focus {
-  background-color: rgba(135, 215, 255, 0.1);
+  background-color: #444;
   outline: none;
+  color: #fafafa;
 }
 
 .note-editor-date {

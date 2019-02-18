@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import "prismjs/themes/prism-coy.css";
+import "prismjs/themes/prism-tomorrow.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
